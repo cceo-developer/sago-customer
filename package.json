@@ -10,7 +10,8 @@
         "lint": "eslint ./src --ext js,vue --max-warnings=0"
     },
     "dependencies": {
-        "vue": "^3.4.19"
+        "vue": "^3.4.19",
+        "vue-router": "^4.3.0"
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^5.0.4",
