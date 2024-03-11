@@ -10,6 +10,7 @@
         "lint": "eslint ./src --ext js,vue --max-warnings=0"
     },
     "dependencies": {
+        "@myshell/alvue": "^1.3.9",
         "axios": "^1.6.7",
         "localforage": "^1.10.0",
         "vue": "^3.4.19",
