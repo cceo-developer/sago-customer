@@ -19,7 +19,7 @@
 					</div>
 				</div>
 
-				<div>
+				<div class="form-error">
 					<label for="password" class="block text-sm font-medium leading-6 text-gray-900">
 						Contraseña
 					</label>
