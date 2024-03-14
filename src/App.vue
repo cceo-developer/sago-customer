@@ -22,5 +22,6 @@
 		<component
 			:is="layout" />
 		<AppEnvironment />
+		<Toast />
 	</div>
 </template>

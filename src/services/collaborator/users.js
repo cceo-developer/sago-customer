@@ -1,4 +1,5 @@
 import { useService } from "@/composables/service.js";
+import {createFormData} from "@myshell/alvue/src/helpers/index.js";
 
 const service = useService()
 
@@ -43,4 +44,18 @@ export function refreshToken(authStore) {
                 //reject(error);
             });
 
+}
+
+export function updatePasswordUser(id, attributes) {
+    return service.put('/users-password/' + id, attributes);
+}
+
+export function updateProfileImageUser(id, file) {
+    const formData = createFormData(file, 'POST');
+    return service.post('/users-image/' + id, formData);
+}
+
+export function closeSessionsUser(id, file) {
+    const formData = createFormData(file, 'POST');
+    return service.post('/users-sessions/' + id, formData);
 }
