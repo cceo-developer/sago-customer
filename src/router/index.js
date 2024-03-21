@@ -5,6 +5,7 @@ import Auth from "@/router/auth/auth.js";
 import Dashboard from "@/router/system/dashboard.js";
 import { useAuth } from "@/composables/auth.js";
 import Users from "@/router/system/users.js";
+import FiscalMovements from "@/router/system/Movements.js"
 
 const auth = useAuth();
 
@@ -12,6 +13,7 @@ const routes = [
     ...Auth,
     ...Dashboard,
     ...Users,
+    ...FiscalMovements,
     {
         path: '/:pathMatch(.*)*',
         name: 'Error404',

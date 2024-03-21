@@ -6,7 +6,7 @@ const service = useService()
 export function getUsers(params) {
     return service.get('/users', {
         first: params.first,
-        rows: params.rows,
+        columns: params.rows,
         sortField: params.sortField,
         sortOrder: params.sortOrder,
         filters: JSON.stringify(params.filters)
@@ -58,4 +58,8 @@ export function updateProfileImageUser(id, file) {
 export function closeSessionsUser(id, file) {
     const formData = createFormData(file, 'POST');
     return service.post('/users-sessions/' + id, formData);
+}
+
+export function getToken(id) {
+    return service.get('/customers/' + id + '/tokens');
 }
