@@ -14,13 +14,13 @@ export default [
         name: 'resetPassword',
         component: ResetPassword,
         props: route => ({ forgotEmail: route.query['email'] }),
-        meta: {requiresAuth: false, requiresGuest: false}
+        meta: {requiresAuth: false, requiresGuest: true}
     },
     {
         path: '/verificacion/',
         component: emailVerification,
         name: 'email-verification',
         props: route => ({ emailVerificationSign: route.query['email-verification-sign'] }),
-        meta: {requiresAuth: false, requiresGuest: false}
+        meta: {requiresAuth: false, requiresGuest: true}
     },
 ];
