@@ -1,0 +1,40 @@
+name: Deploy Testing
+
+on:
+  release:
+    types: [ prereleased ]
+
+jobs:
+  deploy:
+    name: Deploy
+    environment: testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: Build project
+        run: npm run build
+        env:
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+          VITE_CLIENT_SECRET: ${{ secrets.VITE_CLIENT_SECRET }}
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+
+      - name: Generate Key
+        run: echo "${{ secrets.TESTING_KEY }}" > key.pem
+
+      - name: Key permissions
+        run: chmod 500 key.pem
+
+      - name: Deploy project
+        run: scp -o 'StrictHostKeyChecking no' -i key.pem -r dist ${{ secrets.TESTING_USER }}@${{ secrets.TESTING_HOST }}:${{ secrets.TESTING_PATH }}
