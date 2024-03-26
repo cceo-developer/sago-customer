@@ -12,7 +12,7 @@ const columns = [
         field: 'name',
         header: 'Cliente',
         filter: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        default: true
+        default: false
     },
     {
         field: 'name_organization',
