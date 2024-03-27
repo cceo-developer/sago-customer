@@ -120,11 +120,12 @@
 						</div>
 					</div>
 					<div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
-						<button
+						<Button
+							:loading="load"
+							:disabled="load"
+							label="Actualizar Contraseña"
 							type="button" class="inline-flex justify-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
-							@click="handleUpdatePassword()">
-							Actualizar Contraseña
-						</button>
+							@click="handleUpdatePassword()" />
 					</div>
 				</div>
 			</form>
@@ -153,11 +154,12 @@
 						</div>
 					</div>
 					<div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
-						<button
+						<Button
+							:loading="loadCloseSesions"
+							:disabled="loadCloseSesions"
+							label="Cerrar sesiones"
 							type="button" class="inline-flex justify-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
-							@click="sesionMessage.show()">
-							Cerrar sesiones
-						</button>
+							@click="closesessions" />
 					</div>
 				</div>
 			</form>
@@ -273,6 +275,8 @@ const loadingFile = ref(false);
 const file = ref(null);
 const status = ref(false);
 const qrCodeUrl = ref('');
+const load = ref(false);
+const loadCloseSesions = ref(false);
 
 const defaultChangePasswordData = () => ({
   password: null,
@@ -327,12 +331,15 @@ const updateProfileImage = () => {
 }
 
 const handleUpdatePassword = () => {
+  load.value = true;
   toast.add({severity: 'info', summary: 'Procesando', life: 5000});
   updatePasswordUser(user.value.id, password.value).then(() => {
     password.value = Object.assign({}, defaultChangePasswordData());
     toast.add({severity: 'success', summary: 'Contraseña actualizada correctamente.', life: 5000});
+    load.value = false;
   }).catch((error) => {
     toast.add({severity: 'error', summary: messageError(error), life: 5000});
+    load.value = false;
   })
 }
 
@@ -340,10 +347,12 @@ const handleCloseSessionsPassword = () => {
   closeSessionsUser(user.value.id, closePassword.value).then(() => {
     closePassword.value = { password: null };
     toast.add({severity: 'success', summary: 'Sesiones Cerradas Correctamente.', life: 5000});
+    loadCloseSesions.value = false;
     localStorage.clear();
     window.location.href = '/login'
   }).catch((error) => {
     toast.add({severity: 'error', summary: messageError(error), life: 5000});
+    loadCloseSesions.value = false;
   })
 }
 
@@ -390,5 +399,9 @@ const enableF2Afunct = () => {
   }).catch(() => {
     toast.add({severity: 'error', summary: 'Ha ocurrido un error', life: 5000});
   })
+}
+const closesessions = () => {
+  sesionMessage.value.show()
+  loadCloseSesions.value = true;
 }
 </script>

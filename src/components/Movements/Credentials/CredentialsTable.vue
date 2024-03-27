@@ -18,17 +18,23 @@
 						<div class="mt-0.5">Restablecer filtros</div>
 					</div>
 				</button>
-				<button
-					v-if="$can('accounts_store')"
-					class="px-3 py-1 rounded-md bg-primary-700 text-sm font-semibold text-white hover:bg-primary-600 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary-600"
-					@click="showCreateCredential()">
-					<div class="flex gap-x-2">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-						</svg>
-						<div class="mt-0.5">Agregar Nueva Cuenta</div>
-					</div>
-				</button>
+				<div>
+					<Button
+						v-if="$can('accounts_store')"
+						type="button" label="Agregar Nueva Cuenta" :loading="load"
+						:disabled="load" :pt="{
+							root: { class: '!hover:bg-gray-100'},
+							label: { class: 'p-1 text-gray-900'}
+						}"
+						class="flex flex-row items-center justify-center rounded-md w-full sm:w-auto bg-white border border-gray-300 mt-4 sm:mt-0 px-3.5 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+						@click="showAdd">
+						<template #icon>
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+							</svg>
+						</template>
+					</Button>
+				</div>
 			</div>
 		</div>
 		<div class="mt-5 bg-white p-2 border rounded-xl">
@@ -108,6 +114,7 @@ const selectedColumns = ref(defaultColumns);
 const dataTable = ref();
 const stateKey = 'syncfy_credentials';
 const $can = useCan();
+const load = ref(false);
 
 const {
   onUpdate,
@@ -142,6 +149,7 @@ const channel = pusher.subscribe('sago');
 
 channel.bind('credentials_update', () => {
   loadLazyData();
+  load.value = false;
 });
 
 const showCreateCredential = () => {
@@ -175,5 +183,9 @@ const showCreateCredential = () => {
     })
 
   });
+}
+const showAdd = () => {
+  showCreateCredential()
+  load.value = true;
 }
 </script>
